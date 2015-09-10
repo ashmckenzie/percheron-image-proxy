@@ -1,0 +1,32 @@
+---
+secrets_file: ./.secrets.yml
+
+userdata:
+  app:
+    gopath: /app
+    home: /app
+    cache_path: /app/cache
+    port: 7788
+    internal_port: 80
+
+project:
+  name: image-proxy
+  description: Scales images dynamically
+
+stacks:
+- name: image-proxy
+  description: Image Scaler App
+  units:
+    - name: app
+      version: 1.0.0
+      dockerfile: Dockerfile
+      ports:
+        - "{{ userdata.app.port }}:{{ userdata.app.internal_port }}"
+      volumes:
+        - /data/image-proxy:{{ userdata.app.cache_path }}
+      env:
+        - APP_HOME={{ userdata.app.home }}
+        - CACHE_PATH={{ userdata.app.cache_path }}
+        - GOPATH={{ userdata.app.gopath }}
+        - PORT={{ userdata.app.internal_port }}
+        - IMAGE_PROXY_SECERT={{ secrets.image_proxy.secret }}

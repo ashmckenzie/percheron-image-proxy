@@ -1,0 +1,1 @@
+proxy: /app/bin/imageproxy -logtostderr -addr "0.0.0.0:${PORT}" -cacheDir ${CACHE_PATH}
